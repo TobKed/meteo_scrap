@@ -54,7 +54,7 @@ def save_meteo(direct_link, file_name):
 class label_with_picture():
     def __init__(self, img_url):
         self.tk_image = self.photoimage_from_url(img_url)
-        self.label = tk.Label(app, image=self.tk_image, bg='white')
+        self.label = tk.Label(app, image=self.tk_image, bg='#FFFBF0')
 
     @staticmethod
     def photoimage_from_url(img_url):
@@ -68,7 +68,7 @@ class label_with_picture():
 if __name__ == '__main__':
     app = tk.Tk()
     app.title('METEO')
-    app.configure(background='white')
+    app.configure(background='#FFFBF0')
     app.resizable(width=False, height=False)
 
     if UM:
