@@ -1,31 +1,30 @@
 from selenium import webdriver
-from PIL import Image
-import urllib.request
-import tkinter
+from PIL import Image, ImageTk
+from urllib.request import urlopen
+import tkinter as tk
+import io
 
 UM = True
 COAMPS = True
 LEGENDS = True
-MODEL_UM = 'http://www.meteo.pl/um/php/meteorogram_id_um.php?ntype=0u&id=689'
-MODEL_COAMPS = 'http://www.meteo.pl/php/meteorogram_id_coamps.php?ntype=2n&id=689'
+MODEL_UM_URL = 'http://www.meteo.pl/um/php/meteorogram_id_um.php?ntype=0u&id=689'
+MODEL_COAMPS_URL = 'http://www.meteo.pl/php/meteorogram_id_coamps.php?ntype=2n&id=689'
 
-METEOGRAM_UM_PATH = 'files//meteogram_um.png'
-METEOGRAM_COAMPS_PATH = 'files//meteogram_coamps.png'
-LEGEND_UM_PATH = 'files//static//legend_um.png'
-LEGEND_COAMPS_PATH = 'files//static//legend_coamps.png'
+LEGEND_UM_URL = 'http://www.meteo.pl/um/metco/leg_um_pl_cbase_256.png'
+LEGEND_COAMPS_URL = 'http://www.meteo.pl/metco/leg4_pl.png'
 
+CHROMEDRIVER_PATH = './chromedriver'
 
-def get_meteogram_img_link(direct_link):
+def get_meteogram_img_link(meteo_url):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--incognito")
-    driver = webdriver.Chrome(executable_path='/home/tobias/PycharmProjects/meteo_scrap/chromedriver',
-                              chrome_options=chrome_options)
-    driver.get(direct_link)
+    driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+    driver.get(meteo_url)
     img = driver.find_element_by_id('meteorogram')
     meteo = img.get_attribute('src')
     driver.quit()
-    print(meteo)
+    print('link to meteogram image retrieved from {}'.format(meteo_url))
     return meteo
 
 
@@ -33,34 +32,40 @@ def save_meteo(direct_link, file_name):
     urllib.request.urlretrieve(get_meteogram_img_link(direct_link), file_name)
 
 
-class frame_with_picture():
-    def __init__(self, pic_path):
-        pic_width, pic_height = Image.open(pic_path).size
-        self.frame = tkinter.Canvas(bg='black', width=pic_width, height=pic_height)
-        self.image = tkinter.PhotoImage(file=pic_path)
-        image_ = self.frame.create_image(0, 0, anchor=tkinter.NW, image=self.image)
+class label_with_picture():
+    def __init__(self, img_url):
+        self.tk_image = self.photoimage_from_url(img_url)
+        self.label = tk.Label(app, image=self.tk_image, bg='white')
+
+    @staticmethod
+    def photoimage_from_url(img_url):
+        pic_url = img_url
+        image_bytes = urlopen(pic_url).read()
+        data_stream = io.BytesIO(image_bytes)
+        pil_image = Image.open(data_stream)
+        return ImageTk.PhotoImage(pil_image)
 
 
 if __name__ == '__main__':
-    app = tkinter.Tk()
+    app = tk.Tk()
     app.title('METEO')
     app.configure(background='white')
     app.resizable(width=False, height=False)
 
     if UM:
-        um = frame_with_picture(pic_path=METEOGRAM_UM_PATH)
-        um.frame.grid(row=0, column=1)
+        um = label_with_picture(img_url=get_meteogram_img_link(MODEL_UM_URL))
+        um.label.grid(row=0, column=1)
 
     if COAMPS:
-        coamps = frame_with_picture(pic_path=METEOGRAM_COAMPS_PATH)
-        coamps.frame.grid(row=0, column=3)
+        coamps = label_with_picture(img_url=get_meteogram_img_link(MODEL_COAMPS_URL))
+        coamps.label.grid(row=0, column=3)
 
     if UM and LEGENDS:
-        um_legend = frame_with_picture(pic_path=LEGEND_UM_PATH)
-        um_legend.frame.grid(row=0, column=0)
+        um_legend = label_with_picture(img_url=LEGEND_UM_URL)
+        um_legend.label.grid(row=0, column=0)
 
     if COAMPS and LEGENDS:
-        coamps_legend = frame_with_picture(pic_path=LEGEND_COAMPS_PATH)
-        coamps_legend.frame.grid(row=0, column=2)
+        coamps_legend = label_with_picture(img_url=LEGEND_COAMPS_URL)
+        coamps_legend.label.grid(row=0, column=2)
 
     app.mainloop()
