@@ -1,3 +1,21 @@
+# -*- coding: utf-8 -*-
+""" Display meteogram from meteo.pl.
+
+You just have to adjust few constants at the beginning of the script:
+
+    UM = True / False
+    COAMPS = True / False
+    LEGENDS = True / False
+    MODEL_UM_URL = url to meteogram webpage of the UM model
+    MODEL_COAMPS_URL = url to meteogram webpage of the COAMPS model
+
+    LEGEND_UM_URL = direct url to image of the legend of the UM model
+    LEGEND_COAMPS_URL = direct url to image of the legend of the COAMPS model
+
+    CHROMEDRIVER_PATH = path to ChromeDriver, the WebDriver for Chrome
+        available on http://chromedriver.chromium.org/
+"""
+
 from selenium import webdriver
 from PIL import Image, ImageTk
 from urllib.request import urlopen
@@ -14,6 +32,7 @@ LEGEND_UM_URL = 'http://www.meteo.pl/um/metco/leg_um_pl_cbase_256.png'
 LEGEND_COAMPS_URL = 'http://www.meteo.pl/metco/leg4_pl.png'
 
 CHROMEDRIVER_PATH = './chromedriver'
+
 
 def get_meteogram_img_link(meteo_url):
     chrome_options = webdriver.ChromeOptions()
