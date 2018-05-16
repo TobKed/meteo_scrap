@@ -3,17 +3,18 @@
 
 You just have to adjust few constants at the beginning of the script:
 
-    UM = True / False
-    COAMPS = True / False
-    LEGENDS = True / False
-    MODEL_UM_URL = url to meteogram webpage of the UM model
-    MODEL_COAMPS_URL = url to meteogram webpage of the COAMPS model
-
-    LEGEND_UM_URL = direct url to image of the legend of the UM model
-    LEGEND_COAMPS_URL = direct url to image of the legend of the COAMPS model
+    UM = True / False (if you want to see UM model)
+    COAMPS = True / False (if you want to see COAMPS model)
+    LEGENDS = True / False (if you want to see legend)
+    MODEL_UM_URL = url of the UM model meteogram webpage
+    MODEL_COAMPS_URL = url of the COAMPS model meteogram webpage
 
     CHROMEDRIVER_PATH = path to ChromeDriver, the WebDriver for Chrome
         available on http://chromedriver.chromium.org/
+
+    eventually also:
+    LEGEND_UM_URL = direct url of the UM model legend image
+    LEGEND_COAMPS_URL = direct url of the COAMPS model legend image
 """
 
 from selenium import webdriver
