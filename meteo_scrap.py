@@ -48,11 +48,7 @@ def get_meteogram_img_link(meteo_url):
     return meteo
 
 
-def save_meteo(direct_link, file_name):
-    urllib.request.urlretrieve(get_meteogram_img_link(direct_link), file_name)
-
-
-class label_with_picture():
+class LabelWithPicture:
     def __init__(self, img_url):
         self.tk_image = self.photoimage_from_url(img_url)
         self.label = tk.Label(app, image=self.tk_image, bg='#FFFBF0')
@@ -73,19 +69,19 @@ if __name__ == '__main__':
     app.resizable(width=False, height=False)
 
     if UM:
-        um = label_with_picture(img_url=get_meteogram_img_link(MODEL_UM_URL))
+        um = LabelWithPicture(img_url=get_meteogram_img_link(MODEL_UM_URL))
         um.label.grid(row=0, column=1)
 
     if COAMPS:
-        coamps = label_with_picture(img_url=get_meteogram_img_link(MODEL_COAMPS_URL))
+        coamps = LabelWithPicture(img_url=get_meteogram_img_link(MODEL_COAMPS_URL))
         coamps.label.grid(row=0, column=3)
 
     if UM and LEGENDS:
-        um_legend = label_with_picture(img_url=LEGEND_UM_URL)
+        um_legend = LabelWithPicture(img_url=LEGEND_UM_URL)
         um_legend.label.grid(row=0, column=0)
 
     if COAMPS and LEGENDS:
-        coamps_legend = label_with_picture(img_url=LEGEND_COAMPS_URL)
+        coamps_legend = LabelWithPicture(img_url=LEGEND_COAMPS_URL)
         coamps_legend.label.grid(row=0, column=2)
 
     app.mainloop()
