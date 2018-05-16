@@ -31,7 +31,7 @@ python meteo_scrap.py
 Comment=meteo_scraper
 Terminal=true
 Name=meteo
-Exec=/home/username/PythonProjectss/meteo_scrap/start_meteo.sh
+Exec=/home/username/PythonProjects/meteo_scrap/start_meteo.sh
 Type=Application
 Icon=/home/usernames/PythonProjects/meteo_scrap/cloud.svg
 Name[en_US]=meteo
