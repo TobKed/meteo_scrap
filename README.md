@@ -33,6 +33,6 @@ Terminal=true
 Name=meteo
 Exec=/home/username/PythonProjects/meteo_scrap/start_meteo.sh
 Type=Application
-Icon=/home/usernames/PythonProjects/meteo_scrap/cloud.svg
+Icon=/home/username/PythonProjects/meteo_scrap/cloud.svg
 Name[en_US]=meteo
 ```
